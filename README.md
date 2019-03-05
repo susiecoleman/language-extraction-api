@@ -56,7 +56,7 @@ curl -X POST \
   -d '{"text": "someText"}'
 ```
 
-### Assumptions
+### Current Assumptions
 
 - The `text` received by the API will contain a maximum of 2 languages. And if there are 2 languages one will be Persian. 
 
@@ -66,7 +66,7 @@ curl -X POST \
 
 - That a single line would not be expected to contain a mix of Persian and Non Persian and that the presence of Persian characters is an indicator of the line being in Persian
 
-- That a line that contains only numbers cannot be assumed to be Persian 
+- That a line that contains only numbers ([Hindu-Arabic numerals](https://en.wikipedia.org/wiki/Arabic_numerals_(disambiguation))) cannot be assumed to be Persian.
 
 - That latin punctuation used in Persian, e.g. full stops, should not be used as an indicator of Persian
 
