@@ -4,7 +4,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class LanguageFiltersTest extends FlatSpec with Matchers {
 
-  "Persian Filter" should "return true if String contains Persian" in {
+  "Persian Filter" should "return true if input String contains Persian" in {
     LanguageFilters.persianFilter("سال ۲۰۱۹ با نمایشگاه بین\u200Cالمللی سی ای اس در لاس\u200Cوگاس آغاز شد") should be
     true
   }

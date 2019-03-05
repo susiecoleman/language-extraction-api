@@ -25,7 +25,7 @@ class JsonParserTest extends FlatSpec with Matchers{
     JsonParser.stringToJson(s).right.get shouldBe a[Json]
   }
 
-  it should "return Left InvalidJsonError if the string can be parsed to json" in {
+  it should "return Left InvalidJsonError if the string cannot be parsed to json" in {
     val s = "INVALID"
     JsonParser.stringToJson(s).left.get shouldBe a[InvalidJsonError]
   }
@@ -35,12 +35,12 @@ class JsonParserTest extends FlatSpec with Matchers{
     JsonParser.stringToJson(s).left.get shouldBe a[InvalidJsonError]
   }
 
-  "ExtractBody" should "return a Right String if defined" in {
+  "ExtractBody" should "return a Right String if body is defined" in {
   val body = Some("data")
     JsonParser.extractBody(body).right.get shouldBe a[String]
   }
 
-  it should "return a Right Error if not defined" in {
+  it should "return a Right Error if body is not defined" in {
     val body = None
     JsonParser.extractBody(body).left.get shouldBe a[Error]
   }
