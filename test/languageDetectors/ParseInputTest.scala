@@ -37,14 +37,12 @@ class ParseInputTest extends FlatSpec with Matchers {
     ParseInput.markData(lines, filter) should be
     Seq(MarkedData("hello", Match))
   }
-
   it should "mark data that fails the filter as NotAMatch" in {
     val lines = Seq("hi")
     val filter = (s: String) => s.length > 3
     ParseInput.markData(lines, filter) should be
     Seq(MarkedData("hi", NotAMatch))
   }
-
   it should "mark data correctly based on the filter" in {
     val lines = Seq("hi", "hello")
     val filter = (s: String) => s.length > 3
@@ -57,13 +55,11 @@ class ParseInputTest extends FlatSpec with Matchers {
     ParseInput.splitDataByMarkers(markedData) should be
     APIResponse("hello\ngoodbye", "")
   }
-
   it should "group all data marked as NotAMatch" in {
     val markedData = Seq(MarkedData("hi", NotAMatch), MarkedData("dog", NotAMatch))
     ParseInput.splitDataByMarkers(markedData) should be
     APIResponse("", "hi\ndog")
   }
-
   it should "group data based on Marker" in {
     val markedData =
       Seq(MarkedData("hi", NotAMatch), MarkedData("dog", NotAMatch),MarkedData("hello", Match), MarkedData("goodbye", Match))

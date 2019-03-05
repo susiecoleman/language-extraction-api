@@ -8,7 +8,6 @@ import languageDetectors.LanguageFilters.persianFilter
 import models._
 import utils.JsonParser._
 
-
 class Application(val controllerComponents: ControllerComponents) extends BaseController {
 
   def index = Action {
@@ -24,11 +23,5 @@ class Application(val controllerComponents: ControllerComponents) extends BaseCo
       } yield data
     val response = input.fold(_ => InternalServerError, r => Ok(ParseInput.parse(r, persianFilter).asJson.noSpaces))
     response.as("text/json")
-  }
-  }
-
+  }}
 }
-
-
-
-

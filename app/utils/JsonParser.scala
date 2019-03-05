@@ -11,5 +11,4 @@ object JsonParser {
   def stringToJson(s: String): Either[InvalidJsonError, Json] = parser.parse(s).fold(_ => Left(InvalidJsonError(s"$s is not valid json")), Right(_))
 
   def jsonToData(json: Json): Either[InvalidJsonError, MixedLanguageText] = json.as[MixedLanguageText].fold(_ => Left(InvalidJsonError(s"$json is not valid json")), Right(_))
-
 }
