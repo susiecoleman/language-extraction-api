@@ -6,27 +6,27 @@ import org.scalatest.{FlatSpec, Matchers}
 class ParseInputTest extends FlatSpec with Matchers {
 
   "SplitDataByNewLine" should "return a list of 2 items if input contains a newline character" in {
-    val data = Data("123\nABC")
+    val data = MixedLanguageText("123\nABC")
     ParseInput.splitDataByNewLine(data) should be
     Seq("123", "ABC")
   }
   it should "return a list of 2 items if input contains a carriage return" in {
-    val data = Data("123\rABC")
+    val data = MixedLanguageText("123\rABC")
     ParseInput.splitDataByNewLine(data) should be
     Seq("123", "ABC")
   }
   it should "return a list of 4 items if there are multiple new line characters" in {
-    val data = Data("123\nABC\r456\nDEF")
+    val data = MixedLanguageText("123\nABC\r456\nDEF")
     ParseInput.splitDataByNewLine(data) should be
     Seq("123", "ABC", "456", "DEF")
   }
   it should "return a list with one item if there are no new line indicators" in {
-    val data = Data("123")
+    val data = MixedLanguageText("123")
     ParseInput.splitDataByNewLine(data) should be
     Seq("123")
   }
   it should "return an empty list if the data text is an empty string" in {
-    val data = Data("")
+    val data = MixedLanguageText("")
     ParseInput.splitDataByNewLine(data) should be
     Seq.empty
   }
@@ -55,25 +55,25 @@ class ParseInputTest extends FlatSpec with Matchers {
   "SplitDataByMarkers" should "group all data marked as Matching" in {
     val markedData = Seq(MarkedData("hello", Match), MarkedData("goodbye", Match))
     ParseInput.splitDataByMarkers(markedData) should be
-    Response("hello\ngoodbye", "")
+    APIResponse("hello\ngoodbye", "")
   }
 
   it should "group all data marked as NotAMatch" in {
     val markedData = Seq(MarkedData("hi", NotAMatch), MarkedData("dog", NotAMatch))
     ParseInput.splitDataByMarkers(markedData) should be
-    Response("", "hi\ndog")
+    APIResponse("", "hi\ndog")
   }
 
   it should "group data based on Marker" in {
     val markedData =
       Seq(MarkedData("hi", NotAMatch), MarkedData("dog", NotAMatch),MarkedData("hello", Match), MarkedData("goodbye", Match))
     ParseInput.splitDataByMarkers(markedData) should be
-    Response("hello\ngoodbye", "hi\ndog")
+    APIResponse("hello\ngoodbye", "hi\ndog")
   }
 
   "Parse" should "split data into Persian and not Persian" in {
-    val data = Data("Hello\nبزرگ\u200Cترین")
+    val data = MixedLanguageText("Hello\nبزرگ\u200Cترین")
     ParseInput.parse(data) should be
-    Response("بزرگ\u200Cترین", "Hello")
+    APIResponse("بزرگ\u200Cترین", "Hello")
   }
 }

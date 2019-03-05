@@ -3,14 +3,14 @@ package utils
 import io.circe.Json
 import org.scalatest.{FlatSpec, Matchers}
 import io.circe.parser._
-import models.{Data, InvalidJsonError, Error}
+import models.{MixedLanguageText, InvalidJsonError, Error}
 
 class JsonParserTest extends FlatSpec with Matchers{
 
   "JsonToData" should "create a Data object if json is a valid form" in {
     val json = parse("""{"text":"myText"}""").right.get
     JsonParser.jsonToData(json) should be
-    Data("myText")
+    MixedLanguageText("myText")
 
   }
 

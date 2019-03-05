@@ -14,7 +14,7 @@ class Application(val controllerComponents: ControllerComponents) extends BaseCo
   }
 
   def extractLanguage = Action { req => {
-    val input: Either[Error, Data] =
+    val input: Either[Error, MixedLanguageText] =
       for {
         body <- extractBody(req.body.asJson.map(_.toString))
         json <- stringToJson(body)

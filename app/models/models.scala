@@ -1,8 +1,8 @@
 package models
 
-case class Data(text: String)
+case class MixedLanguageText(text: String)
 
-case class Response(language1: String, language2: String)
+case class APIResponse(matches: String, notAMatch: String)
 
 case class MarkedData(data: String, marker: Marker)
 

@@ -4,23 +4,25 @@ import models._
 import LanguageFilters.persianFilter
 
 object ParseInput {
-  def parse(data: Data): Response = {
+//  Takes the text from data object.
+// Splits it on new lines and divides the lines into 2 groups based on the filter
+  def parse(data: MixedLanguageText): APIResponse = {
     val splitData = splitDataByNewLine(data)
     val markedData = markData(splitData, persianFilter)
     splitDataByMarkers(markedData)
   }
 
-  def splitDataByNewLine(data: Data): Seq[String] = data.text.split("\r|\n")
+  def splitDataByNewLine(data: MixedLanguageText): Seq[String] = data.text.split("\r|\n")
 
   def markData(lines: Seq[String], filter: String => Boolean): Seq[MarkedData] = {
     lines.map(line => if (filter(line)) MarkedData(line, Match) else MarkedData(line, NotAMatch))
   }
 
-  def splitDataByMarkers(markedData: Seq[MarkedData]): Response = {
-    markedData.foldLeft(Response("", ""))((acc, data) => {
-      data.marker match {
-        case Match => Response(acc.language1 + "\n" + data.data, acc.language2)
-        case NotAMatch => Response(acc.language1, acc.language2 + "\n" + data.data)
+  def splitDataByMarkers(markedData: Seq[MarkedData]): APIResponse = {
+    markedData.foldLeft(APIResponse("", ""))((acc: APIResponse, markedData: MarkedData) => {
+      markedData.marker match {
+        case Match => APIResponse(s"${acc.matches}\n${markedData.data}", acc.notAMatch)
+        case NotAMatch => APIResponse(acc.matches, s"${acc.notAMatch}\n${markedData.data}")
       }
     })
   }
