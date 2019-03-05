@@ -73,7 +73,7 @@ class ParseInputTest extends FlatSpec with Matchers {
 
   "Parse" should "split data into Persian and not Persian" in {
     val data = MixedLanguageText("Hello\nبزرگ\u200Cترین")
-    ParseInput.parse(data) should be
+    ParseInput.parse(data, LanguageFilters.persianFilter) should be
     APIResponse("بزرگ\u200Cترین", "Hello")
   }
 }

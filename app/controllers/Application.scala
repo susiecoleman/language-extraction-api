@@ -4,8 +4,10 @@ import play.api.mvc._
 import io.circe.syntax._
 import io.circe.generic.auto._
 import languageDetectors.ParseInput
+import languageDetectors.LanguageFilters.persianFilter
 import models._
 import utils.JsonParser._
+
 
 class Application(val controllerComponents: ControllerComponents) extends BaseController {
 
@@ -20,7 +22,7 @@ class Application(val controllerComponents: ControllerComponents) extends BaseCo
         json <- stringToJson(body)
         data <- jsonToData(json)
       } yield data
-    val response = input.fold(_ => InternalServerError, r => Ok(ParseInput.parse(r).asJson.noSpaces))
+    val response = input.fold(_ => InternalServerError, r => Ok(ParseInput.parse(r, persianFilter).asJson.noSpaces))
     response.as("text/json")
   }
   }

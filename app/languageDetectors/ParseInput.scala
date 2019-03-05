@@ -1,14 +1,13 @@
 package languageDetectors
 
 import models._
-import LanguageFilters.persianFilter
 
 object ParseInput {
 //  Takes the text from data object.
 // Splits it on new lines and divides the lines into 2 groups based on the filter
-  def parse(data: MixedLanguageText): APIResponse = {
+  def parse(data: MixedLanguageText, filter: String => Boolean): APIResponse = {
     val splitData = splitDataByNewLine(data)
-    val markedData = markData(splitData, persianFilter)
+    val markedData = markData(splitData, filter)
     splitDataByMarkers(markedData)
   }
 
