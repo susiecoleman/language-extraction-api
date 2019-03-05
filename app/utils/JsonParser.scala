@@ -4,7 +4,7 @@ import io.circe.{Json, parser}
 import io.circe.generic.auto._
 import models.{BodyError, Error, InvalidJsonError, Data}
 
-object Parser {
+object JsonParser {
 
   def extractBody(body: Option[String]): Either[Error, String] = Either.cond(body.isDefined, body.get, BodyError)
 

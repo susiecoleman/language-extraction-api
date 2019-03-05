@@ -3,24 +3,26 @@ package controllers
 import play.api.mvc._
 import io.circe.syntax._
 import io.circe.generic.auto._
-import utils.Parser._
+import languageDetectors.ParseInput
+import models._
+import utils.JsonParser._
 
-class Application(val controllerComponents: ControllerComponents) extends BaseController{
+class Application(val controllerComponents: ControllerComponents) extends BaseController {
 
   def index = Action {
     Ok("Language Extraction API")
   }
 
-  def uploadData = Action { req =>
-    {
-      val data = for {
+  def extractLanguage = Action { req => {
+    val input: Either[Error, Data] =
+      for {
         body <- extractBody(req.body.asJson.map(_.toString))
         json <- stringToJson(body)
         data <- jsonToData(json)
       } yield data
-      val response = data.fold(_ => InternalServerError, r => Ok(r.asJson.noSpaces))
-      response.as("text/json")
-    }
+    val response = input.fold(_ => InternalServerError, r => Ok(ParseInput.parse(r).asJson.noSpaces))
+    response.as("text/json")
+  }
   }
 
 }
